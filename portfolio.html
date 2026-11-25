@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohd Wazeh — Full Stack Developer &amp; AI Web App Builder</title>
+  <meta name="description" content="Portfolio of Mohd Wazeh — Full Stack Developer (MERN Stack), AI-Powered Web App Builder, and Freelance Web Developer at Evela Tech based in Bengaluru, Karnataka, India." />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Configure Tailwind for class-based dark mode and custom fonts/animations
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+          },
+          animation: {
+            'spin-slow': 'spin 14s linear infinite',
+            'float-slow': 'floatY 5.5s ease-in-out infinite',
+            'float-delayed': 'floatY 6.5s ease-in-out 1.4s infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'gradient-x': 'gradientX 6s ease infinite',
+          },
+          keyframes: {
+            floatY: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.55', transform: 'scale(1)' },
+              '50%': { opacity: '0.95', transform: 'scale(1.04)' },
+            },
+            gradientX: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Prevent theme flash on page load -->
+  <script>
+    (function () {
+      try {
+        const savedTheme = localStorage.getItem('wazeh-theme');
+        if (savedTheme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    /* Base typography & smooth transitions */
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Animated gradient ring for hero portrait */
+    .gradient-ring {
+      background: linear-gradient(120deg, #6366f1, #06b6d4, #a855f7, #ec4899, #6366f1);
+      background-size: 300% 300%;
+      animation: gradientX 7s ease infinite;
+    }
+
+    /* Scroll-reveal animation classes */
+    .reveal, .reveal-left, .reveal-right {
+      opacity: 0;
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal { transform: translateY(28px); }
+    .reveal-left { transform: translateX(-28px); }
+    .reveal-right { transform: translateX(28px); }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Subtle 3D tilt transition */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.22s ease-out, box-shadow 0.3s ease;
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.45); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.75); }
+
+    /* Typing cursor blink */
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.15em;
+      vertical-align: -0.15em;
+      margin-left: 3px;
+      animation: blinkCursor 0.85s step-end infinite;
+    }
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Skill bar fill transition */
+    .skill-bar-fill {
+      width: 0%;
+      transition: width 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] z-[60] bg-gradient-to-r from-indigo-500 via-cyan-400 to-fuchsia-500 transition-all duration-100" style="width: 0%;"></div>
+
+  <!-- Toast Notification Container (replaces alert()) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[80] flex flex-col gap-2.5 max-w-sm pointer-events-none"></div>
+
+  <!-- =================================================================
+       1. STICKY GLASSMORPHIC NAVBAR
+  ================================================================== -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[70px] flex items-center justify-between gap-3">
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-2.5 group shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 via-cyan-500 to-fuchsia-500 p-[2px] shadow-md group-hover:scale-105 transition-transform">
+          <div class="w-full h-full rounded-[10px] bg-white dark:bg-slate-950 flex items-center justify-center font-mono font-bold text-xs text-indigo-600 dark:text-cyan-400">
+            MW
+          </div>
+        </div>
+        <div class="flex flex-col leading-tight">
+          <span class="font-mono font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-cyan-400 transition-colors">&lt;Wazeh/&gt;</span>
+          <span class="hidden sm:block text-[10px] font-mono text-indigo-600 dark:text-cyan-400">Full Stack • MERN • AI</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav aria-label="Primary Navigation" class="hidden lg:flex items-center gap-1">
+        <a href="#about" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">About</a>
+        <a href="#services" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Services</a>
+        <a href="#skills" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Skills</a>
+        <a href="#experience" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Experience</a>
+        <a href="#projects" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Projects</a>
+        <a href="#education" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Education</a>
+        <a href="#contact" class="nav-link px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all">Contact</a>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center gap-2">
+        <!-- Terminal Trigger Button -->
+        <button type="button" onclick="openTerminal()" title="Open Interactive Terminal (Ctrl+K)" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700/80 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">
+          <span class="text-indigo-600 dark:text-cyan-400">&gt;_</span>
+          <span class="hidden sm:inline">Terminal</span>
+          <kbd class="hidden xl:inline-block px-1.5 py-0.5 text-[10px] rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">Ctrl+K</kbd>
+        </button>
+
+        <!-- Dark / Light Mode Toggle -->
+        <button type="button" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Dark and Light Mode" title="Toggle Dark / Light Mode" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700/80 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">
+          <!-- Sun icon (shown in Dark Mode) -->
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <!-- Moon icon (shown in Light Mode) -->
+          <svg class="w-4 h-4 block dark:hidden text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <!-- Download CV Button -->
+        <button type="button" onclick="downloadCV()" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-md shadow-indigo-500/20 transition-all active:scale-95">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Download CV</span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Menu" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700/80">
+          <svg id="mobile-menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="mobile-menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-4 pt-3 pb-5 space-y-1.5 shadow-xl">
+      <a href="#about" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">About</a>
+      <a href="#services" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Client Services</a>
+      <a href="#skills" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Skills</a>
+      <a href="#experience" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Experience</a>
+      <a href="#projects" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Projects</a>
+      <a href="#education" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Education</a>
+      <a href="#contact" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Contact</a>
+      <div class="pt-3 flex gap-2">
+        <button type="button" onclick="downloadCV(); closeMobileMenu();" class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 shadow">Download CV</button>
+        <button type="button" onclick="openCVPreview(); closeMobileMenu();" class="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">Preview CV</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =================================================================
+         2. HERO SECTION WITH CANVAS CONSTELLATION & 3D PORTRAIT
+    ================================================================== -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 overflow-hidden">
+      <!-- Interactive Canvas Particle Background -->
+      <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+      <!-- Ambient Background Glow Orbs -->
+      <div class="absolute top-20 -left-24 w-72 h-72 bg-indigo-500/15 dark:bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-10 -right-24 w-80 h-80 bg-cyan-500/15 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+          <!-- Left Column: Intro, Typing Role & CTAs -->
+          <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+            <!-- Status Badge -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 dark:bg-slate-900/85 border border-emerald-500/30 shadow-sm backdrop-blur-md">
+              <span class="relative flex h-2.5 w-2.5 shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs sm:text-sm font-medium text-slate-700 dark:text-emerald-300">Open to Software Developer, Full Stack Developer &amp; Freelance Client Projects</span>
+            </div>
+
+            <!-- Name & Location -->
+            <div class="space-y-3">
+              <p class="font-mono text-xs sm:text-sm uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold flex items-center justify-center lg:justify-start gap-2">
+                <span>Hello, I'm</span>
+                <span class="text-slate-400 dark:text-slate-600">•</span>
+                <span class="inline-flex items-center gap-1 text-slate-600 dark:text-slate-400 normal-case tracking-normal">
+                  <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  Bengaluru, Karnataka, India
+                </span>
+              </p>
+
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08]">
+                Mohd <span class="bg-gradient-to-r from-indigo-600 via-cyan-500 to-fuchsia-500 bg-clip-text text-transparent">Wazeh</span>
+              </h1>
+
+              <!-- Dynamic Typing Role -->
+              <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700 dark:text-slate-200 min-h-[2.2rem] sm:min-h-[2.5rem] flex items-center justify-center lg:justify-start">
+                <span id="typing-text" class="font-mono text-indigo-600 dark:text-cyan-400"></span>
+                <span class="typing-cursor bg-indigo-600 dark:bg-cyan-400"></span>
+              </div>
+            </div>
+
+            <!-- Concise Summary -->
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300/90 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              Building responsive, scalable <strong class="text-slate-900 dark:text-white">MERN stack</strong> &amp; <strong class="text-slate-900 dark:text-white">AI-powered web applications</strong> from concept to deployment — partnering with hiring teams and freelance clients via <span class="font-semibold text-indigo-600 dark:text-cyan-400">Evela Tech</span>.
+            </p>
+
+            <!-- Primary CTA Buttons -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+              <button type="button" onclick="downloadCV()" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 hover:brightness-110 shadow-lg shadow-indigo-500/25 transition-all active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Download CV
+              </button>
+
+              <button type="button" onclick="openCVPreview()" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-cyan-400 shadow-sm transition-all active:scale-95">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                Preview CV
+              </button>
+
+              <a href="#services" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/25 transition-all">
+                Explore Services
+              </a>
+
+              <a href="#projects" class="inline-flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors">
+                View Projects &rarr;
+              </a>
+
+              <a href="#contact" class="inline-flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors">
+                Contact Me
+              </a>
+            </div>
+
+            <!-- Social Icon Links -->
+            <div class="flex items-center justify-center lg:justify-start gap-3 pt-2">
+              <a href="https://github.com/WAZEH" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub: github.com/WAZEH" class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:border-indigo-500 dark:hover:border-cyan-400 hover:-translate-y-0.5 transition-all shadow-sm">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/mdwazeho/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn: linkedin.com/in/mdwazeho" class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:border-indigo-500 dark:hover:border-cyan-400 hover:-translate-y-0.5 transition-all shadow-sm">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              </a>
+              <a href="mailto:mohdwazeh08@gmail.com" aria-label="Email" title="Email: mohdwazeh08@gmail.com" class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:border-indigo-500 dark:hover:border-cyan-400 hover:-translate-y-0.5 transition-all shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </a>
+              <a href="tel:+919554897472" aria-label="Phone" title="Call: +91 9554897472" class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 hover:border-indigo-500 dark:hover:border-cyan-400 hover:-translate-y-0.5 transition-all shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: 3D-Tilt Portrait Showcase + Floating Tech Badges -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div id="hero-tilt-container" class="tilt-card relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[360px] lg:h-[360px] flex items-center justify-center">
+              <!-- Pulsing Backdrop Glow -->
+              <div class="absolute inset-4 rounded-full bg-gradient-to-tr from-indigo-500/35 via-cyan-400/30 to-fuchsia-500/35 blur-2xl animate-pulse-glow"></div>
+
+              <!-- Animated Gradient Ring -->
+              <div class="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full p-[5px] gradient-ring shadow-2xl">
+                <div class="w-full h-full rounded-full overflow-hidden bg-slate-200 dark:bg-slate-900 border-4 border-white dark:border-slate-950 relative">
+                  <!-- Uploaded Portrait Photo with Graceful Inline SVG/Initials Fallback -->
+                  <img
+                    id="hero-portrait-img"
+                    src="a115e7f2-c8d3-4358-8888-2d88655a16ce.png"
+                    alt="Mohd Wazeh — Full Stack Developer"
+                    class="w-full h-full object-cover object-top"
+                    onerror="handlePortraitFallback(this)"
+                  />
+                  <div id="hero-portrait-fallback" class="hidden w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-indigo-600 via-slate-900 to-cyan-600 text-white p-6 text-center">
+                    <svg class="w-16 h-16 mb-2 text-cyan-300 opacity-90" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
+                    <span class="text-4xl font-black tracking-tight">MW</span>
+                    <span class="text-xs font-mono text-cyan-200 mt-1">Mohd Wazeh</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Tech Badge 1: React.js -->
+              <div class="absolute -top-2 right-4 sm:right-2 animate-float-slow bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
+                <span class="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">React.js</span>
+              </div>
+
+              <!-- Floating Tech Badge 2: Node.js -->
+              <div class="absolute bottom-6 -left-3 sm:-left-6 animate-float-delayed bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                <span class="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">Node.js</span>
+              </div>
+
+              <!-- Floating Tech Badge 3: MongoDB -->
+              <div class="absolute -bottom-3 right-8 animate-float-slow bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
+                <span class="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">MongoDB</span>
+              </div>
+
+              <!-- Floating Tech Badge 4: Express.js -->
+              <div class="absolute top-1/2 -left-5 sm:-left-8 -translate-y-1/2 animate-float-delayed bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]"></span>
+                <span class="font-mono text-[11px] font-bold text-slate-800 dark:text-slate-100">Express.js</span>
+              </div>
+
+              <!-- Floating Tech Badge 5: AI Web Apps -->
+              <div class="absolute top-1/3 -right-4 sm:-right-7 animate-float-delayed bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-fuchsia-300/80 dark:border-fuchsia-500/50 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-fuchsia-500 shadow-[0_0_8px_#d946ef]"></span>
+                <span class="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">AI Web Apps</span>
+              </div>
+
+              <!-- Floating Tech Badge 6: C++ & DSA -->
+              <div class="absolute top-6 -left-2 sm:-left-5 animate-float-slow bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xl flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_8px_#6366f1]"></span>
+                <span class="font-mono text-[11px] font-bold text-slate-800 dark:text-slate-100">C++ &amp; DSA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         3. ABOUT SECTION & INTERACTIVE VS CODE PROFILE CARD
+    ================================================================== -->
+    <section id="about" class="py-20 sm:py-24 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">01 / About Me</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Engineering Clean, Scalable Web &amp; AI Products</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">Combining full-stack MERN fundamentals with modern AI-assisted engineering workflows.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-start">
+          <!-- Left: 3-Paragraph Bio + Animated Metric Counters -->
+          <div class="lg:col-span-6 space-y-6 reveal-left">
+            <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg space-y-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p>
+                Full Stack Developer with hands-on experience building responsive, API-driven, and <strong class="text-slate-900 dark:text-white">AI-powered web applications</strong> using the <strong class="text-slate-900 dark:text-white">MERN stack</strong>. Since 2024, I have worked as a freelance developer, delivering web solutions from planning and development through to testing and deployment. I focus on writing clean, maintainable code and building reliable, scalable applications that are easy to use.
+              </p>
+              <p>
+                My technical skills include <strong class="text-slate-900 dark:text-white">React.js, JavaScript (ES6+), HTML5, CSS3, Node.js, Express.js, MongoDB, RESTful APIs, AI API &amp; LLM integration, Git and GitHub</strong>. I am a quick learner with strong problem-solving skills, attention to detail and a collaborative, team-first attitude.
+              </p>
+              <p>
+                I am currently seeking <strong class="text-indigo-600 dark:text-cyan-400">Software Developer</strong> and <strong class="text-indigo-600 dark:text-cyan-400">Full Stack Developer</strong> opportunities where I can contribute to impactful products and keep growing, while continuing to partner with freelance clients on custom web and AI-built applications. Let's connect if you are hiring or would like to collaborate.
+              </p>
+            </div>
+
+            <!-- Animated Metric Counters -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+                <div class="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-cyan-400 font-mono"><span class="counter" data-target="2" data-suffix="+">0</span></div>
+                <div class="text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">Yrs Coding &amp; Freelance</div>
+              </div>
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+                <div class="text-2xl sm:text-3xl font-black text-fuchsia-600 dark:text-fuchsia-400 font-mono"><span class="counter" data-target="10" data-suffix="+">0</span></div>
+                <div class="text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">Web &amp; AI Projects</div>
+              </div>
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+                <div class="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 font-mono"><span class="counter" data-target="8.63" data-decimals="2">0</span></div>
+                <div class="text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">B.Tech CSE SGPA</div>
+              </div>
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+                <div class="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400 font-mono"><span class="counter" data-target="100" data-suffix="%">0</span></div>
+                <div class="text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">End-to-End Delivery</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive VS Code Profile Card -->
+          <div class="lg:col-span-6 reveal-right">
+            <div class="rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl text-slate-100">
+              <!-- VS Code Window Top Bar -->
+              <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                  <span class="ml-2 text-xs font-mono text-slate-400 hidden sm:inline">mohd-wazeh-portfolio — VS Code</span>
+                </div>
+                <button type="button" onclick="copyCodeProfile()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-800 hover:bg-indigo-600 text-slate-200 transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span id="copy-code-label">Copy</span>
+                </button>
+              </div>
+
+              <!-- File Tabs -->
+              <div class="flex items-center bg-slate-900/70 border-b border-slate-800 text-xs font-mono">
+                <button type="button" id="code-tab-js" onclick="switchCodeTab('js')" class="px-4 py-2.5 border-r border-slate-800 bg-slate-950 text-cyan-400 border-t-2 border-t-cyan-400 font-semibold">
+                  developer.js
+                </button>
+                <button type="button" id="code-tab-json" onclick="switchCodeTab('json')" class="px-4 py-2.5 border-r border-slate-800 text-slate-400 hover:text-slate-200 transition-colors">
+                  mohdWazeh.json
+                </button>
+              </div>
+
+              <!-- Syntax-Highlighted Code Body -->
+              <div class="p-5 sm:p-6 overflow-x-auto font-mono text-xs sm:text-[13px] leading-relaxed">
+                <pre id="vscode-content" class="m-0"></pre>
+              </div>
+
+              <!-- VS Code Status Bar -->
+              <div class="px-4 py-2 bg-indigo-600/90 text-white text-[11px] font-mono flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <span>main*</span>
+                  <span>UTF-8</span>
+                  <span id="vscode-lang-badge">JavaScript</span>
+                </div>
+                <span>Bengaluru, IN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         4. CLIENT SERVICES SECTION (#services) — COMPREHENSIVE
+    ================================================================== -->
+    <section id="services" class="py-20 sm:py-24 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">02 / Services for Clients</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">End-to-End Web &amp; AI Solutions for Businesses, Startups &amp; Individuals</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">
+            Operated independently &amp; via <span class="font-semibold text-indigo-600 dark:text-cyan-400">Evela Tech</span> — delivering production-ready MERN applications, AI-powered tools, and high-converting retail websites with transparent milestones.
+          </p>
+        </div>
+
+        <!-- 6 Detailed Service Cards Grid -->
+        <div id="services-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          <!-- Populated dynamically via JS for clean maintainability & interactive wiring -->
+        </div>
+
+        <!-- 4-Step Client Engagement Workflow -->
+        <div class="mb-20 reveal">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">How We Work Together</span>
+            <h3 class="mt-1.5 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">4-Step Client Delivery Process</h3>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Step 01 -->
+            <div class="relative p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-500/60 dark:hover:border-cyan-400/60 transition-all">
+              <div class="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-cyan-400 font-mono font-extrabold flex items-center justify-center mb-4 border border-indigo-200/70 dark:border-indigo-500/30">01</div>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Discovery &amp; Scope</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Clarify requirements, business goals, feature priorities, timeline, and transparent cost estimate.</p>
+            </div>
+            <!-- Step 02 -->
+            <div class="relative p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-500/60 dark:hover:border-cyan-400/60 transition-all">
+              <div class="w-11 h-11 rounded-2xl bg-cyan-50 dark:bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 font-mono font-extrabold flex items-center justify-center mb-4 border border-cyan-200/70 dark:border-cyan-500/30">02</div>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Design &amp; Architecture</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Plan responsive UI wireframes, MongoDB schema, RESTful API endpoints, and AI/third-party integrations.</p>
+            </div>
+            <!-- Step 03 -->
+            <div class="relative p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-500/60 dark:hover:border-cyan-400/60 transition-all">
+              <div class="w-11 h-11 rounded-2xl bg-fuchsia-50 dark:bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400 font-mono font-extrabold flex items-center justify-center mb-4 border border-fuchsia-200/70 dark:border-fuchsia-500/30">03</div>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Development &amp; Testing</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Write clean MERN/AI code with milestone demos, responsive cross-device QA, and iterative feedback.</p>
+            </div>
+            <!-- Step 04 -->
+            <div class="relative p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-500/60 dark:hover:border-cyan-400/60 transition-all">
+              <div class="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-mono font-extrabold flex items-center justify-center mb-4 border border-emerald-200/70 dark:border-emerald-500/30">04</div>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Launch &amp; Handover</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Production deployment, domain &amp; SSL setup, clean Git handover, walkthrough, and post-launch support.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Engagement Models / Client Packages -->
+        <div class="reveal">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">Flexible Engagement Models</span>
+            <h3 class="mt-1.5 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Client Packages &amp; Collaboration Options</h3>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-6 items-stretch">
+            <!-- Package 1: Starter Business Website -->
+            <div class="flex flex-col justify-between p-7 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:-translate-y-1 transition-all">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Retail &amp; Brand</span>
+                  <span class="text-xs font-mono text-indigo-600 dark:text-cyan-400 font-semibold">1–2 Weeks</span>
+                </div>
+                <h4 class="text-xl font-extrabold text-slate-900 dark:text-white">Starter Business Website</h4>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Ideal for local businesses, multi-brand stores, and personal brands needing a fast, modern online presence.</p>
+                <ul class="mt-6 space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Responsive mobile-first UI (Dark &amp; Light mode)</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Product catalog, showcase &amp; brand sections</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>WhatsApp / lead inquiry forms &amp; Google Maps</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Core SEO setup, fast load &amp; live deployment</span></li>
+                </ul>
+              </div>
+              <button type="button" onclick="requestService('Business & Multi-Brand E-Commerce Websites', 'Starter Business Website Package')" class="mt-7 w-full py-3 rounded-2xl text-sm font-semibold bg-slate-900 dark:bg-slate-800 text-white hover:bg-indigo-600 dark:hover:bg-cyan-500 dark:hover:text-slate-950 transition-all">
+                Start a Project
+              </button>
+            </div>
+
+            <!-- Package 2: Full-Stack / AI Web App (Most Popular) -->
+            <div class="relative flex flex-col justify-between p-7 rounded-3xl bg-gradient-to-b from-indigo-600 via-indigo-700 to-slate-900 text-white border-2 border-cyan-400/70 shadow-2xl shadow-indigo-500/25 lg:-translate-y-2">
+              <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-400 text-slate-950 font-mono text-xs font-extrabold tracking-wide shadow-md">
+                MOST POPULAR
+              </div>
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-4 mt-1">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-white/15 text-cyan-200">MERN + AI</span>
+                  <span class="text-xs font-mono text-cyan-300 font-semibold">2–6 Weeks</span>
+                </div>
+                <h4 class="text-xl font-extrabold text-white">Full-Stack / AI Web App</h4>
+                <p class="text-sm text-indigo-100/90 mt-2">Complete custom web application or AI-powered MVP built for startups, SaaS founders, and growing teams.</p>
+                <ul class="mt-6 space-y-2.5 text-sm text-indigo-50">
+                  <li class="flex items-start gap-2.5"><span class="text-cyan-300 font-bold">✓</span><span>Custom React.js UI + Node.js / Express REST APIs</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-cyan-300 font-bold">✓</span><span>MongoDB database design &amp; JWT role authentication</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-cyan-300 font-bold">✓</span><span>AI / LLM API integration &amp; Razorpay payments</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-cyan-300 font-bold">✓</span><span>Admin dashboard, cloud deploy &amp; Git handover</span></li>
+                </ul>
+              </div>
+              <button type="button" onclick="requestService('Full-Stack MERN Web Applications', 'Full-Stack / AI Web App Package')" class="mt-7 w-full py-3 rounded-2xl text-sm font-bold bg-white text-slate-950 hover:bg-cyan-300 shadow-lg transition-all">
+                Start a Project
+              </button>
+            </div>
+
+            <!-- Package 3: Custom / Dedicated Retainer -->
+            <div class="flex flex-col justify-between p-7 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:-translate-y-1 transition-all">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Flexible / Monthly</span>
+                  <span class="text-xs font-mono text-indigo-600 dark:text-cyan-400 font-semibold">Ongoing</span>
+                </div>
+                <h4 class="text-xl font-extrabold text-slate-900 dark:text-white">Custom / Dedicated Retainer</h4>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Ongoing full-stack engineering support, API expansion, UI upgrades, and maintenance for live products.</p>
+                <ul class="mt-6 space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Dedicated weekly/monthly development hours</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Feature rollouts, bug fixes &amp; code refactoring</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Performance optimization &amp; security updates</span></li>
+                  <li class="flex items-start gap-2.5"><span class="text-emerald-500 font-bold">✓</span><span>Direct communication &amp; Git/GitHub PR workflows</span></li>
+                </ul>
+              </div>
+              <button type="button" onclick="requestService('Deployment, Maintenance & Ongoing Support', 'Custom / Dedicated Retainer')" class="mt-7 w-full py-3 rounded-2xl text-sm font-semibold bg-slate-900 dark:bg-slate-800 text-white hover:bg-indigo-600 dark:hover:bg-cyan-500 dark:hover:text-slate-950 transition-all">
+                Start a Project
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         5. FILTERABLE SKILLS SECTION (#skills)
+    ================================================================== -->
+    <section id="skills" class="py-20 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">03 / Technical Arsenal</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Skills &amp; Technologies</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">Filter by category to explore my full-stack, AI web application, and computer science foundation.</p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div id="skill-filters" class="flex flex-wrap justify-center gap-2 mb-12 reveal">
+          <button type="button" data-filter="all" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 dark:bg-cyan-500 text-white dark:text-slate-950 shadow-md transition-all">All</button>
+          <button type="button" data-filter="languages" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Languages</button>
+          <button type="button" data-filter="frontend" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Frontend</button>
+          <button type="button" data-filter="backend" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Backend</button>
+          <button type="button" data-filter="database" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Database</button>
+          <button type="button" data-filter="ai" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-fuchsia-500 dark:hover:border-fuchsia-400 transition-all">AI &amp; Web Apps</button>
+          <button type="button" data-filter="tools" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Tools</button>
+          <button type="button" data-filter="concepts" class="skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all">Concepts</button>
+        </div>
+
+        <!-- Skills Cards Container -->
+        <div id="skills-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         6. EXPERIENCE TIMELINE (#experience)
+    ================================================================== -->
+    <section id="experience" class="py-20 sm:py-24 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">04 / Experience</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Career &amp; Training Timeline</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">Hands-on freelance delivery, full-stack internships, and structured engineering training.</p>
+        </div>
+
+        <!-- Vertical Timeline -->
+        <div class="relative pl-7 sm:pl-10 space-y-8 before:content-[''] before:absolute before:left-2.5 sm:before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-indigo-500 before:via-cyan-400 before:to-purple-500">
+
+          <!-- Role 1: Evela Tech -->
+          <article class="reveal relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all">
+            <span class="absolute -left-[29px] sm:-left-[37px] top-7 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-white dark:ring-slate-950 shadow-[0_0_12px_#10b981]"></span>
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+              <div>
+                <div class="inline-flex items-center gap-2 mb-1">
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">Current Role</span>
+                </div>
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Freelance Full Stack Developer</h3>
+                <p class="text-sm font-semibold text-indigo-600 dark:text-cyan-400">Evela Tech · Self-employed</p>
+                <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">Lucknow, Uttar Pradesh, India · Hybrid</p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                Apr 2025 – Present · 1 yr 8 mos
+              </span>
+            </div>
+            <ul class="space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Build and deliver full-stack and AI-powered web applications for clients using MongoDB, Express.js, React, and Node.js.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Design responsive interfaces and REST APIs, and connect databases, AI APIs, and third-party services.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Own projects end to end: requirements, development, testing, deployment, and client communication.</span></li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-cyan-300">MERN Stack</span>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-fuchsia-50 dark:bg-fuchsia-500/15 text-fuchsia-700 dark:text-fuchsia-300">AI Web Apps</span>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-cyan-300">REST APIs</span>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-cyan-300">Deployment</span>
+            </div>
+          </article>
+
+          <!-- Role 2: Ducat India -->
+          <article class="reveal relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all">
+            <span class="absolute -left-[29px] sm:-left-[37px] top-7 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-white dark:ring-slate-950"></span>
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Full Stack Development Trainee</h3>
+                <p class="text-sm font-semibold text-indigo-600 dark:text-cyan-400">Ducat India · Internship</p>
+                <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">Noida, Uttar Pradesh, India · On-site</p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                Sep 2024 – Mar 2025 · 7 mos
+              </span>
+            </div>
+            <ul class="space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2.5"><span class="text-indigo-500 mt-1 shrink-0">▹</span><span>Training in MongoDB, Express.js, React, and Node.js, with hands-on full-stack projects.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-indigo-500 mt-1 shrink-0">▹</span><span>Practising REST API development, database management, and responsive UI design.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-indigo-500 mt-1 shrink-0">▹</span><span>Using Git and GitHub for version control while building and debugging projects.</span></li>
+            </ul>
+          </article>
+
+          <!-- Role 3: Code Clause -->
+          <article class="reveal relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all">
+            <span class="absolute -left-[29px] sm:-left-[37px] top-7 w-4 h-4 rounded-full bg-cyan-500 ring-4 ring-white dark:ring-slate-950"></span>
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Web Developer Intern</h3>
+                <p class="text-sm font-semibold text-indigo-600 dark:text-cyan-400">Code Clause</p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                May 2023 – July 2023
+              </span>
+            </div>
+            <ul class="space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Collaborated with the backend team to integrate frontend components with backend systems.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Designed and developed the frontend using HTML, CSS, and JavaScript.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-cyan-500 mt-1 shrink-0">▹</span><span>Ensured responsiveness and usability for a seamless user experience.</span></li>
+            </ul>
+          </article>
+
+          <!-- Role 4: Internshala Trainings -->
+          <article class="reveal relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all">
+            <span class="absolute -left-[29px] sm:-left-[37px] top-7 w-4 h-4 rounded-full bg-purple-500 ring-4 ring-white dark:ring-slate-950"></span>
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Full Stack Web Development Training</h3>
+                <p class="text-sm font-semibold text-indigo-600 dark:text-cyan-400">Internshala Trainings</p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                July 2022 – Aug 2022
+              </span>
+            </div>
+            <ul class="space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2.5"><span class="text-purple-500 mt-1 shrink-0">▹</span><span>Completed 8-week certified training covering HTML, CSS, Bootstrap, DBMS, PHP, JavaScript, React, and Final Project modules.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         7. FEATURED PROJECTS (#projects) — 3D TILT + INTERACTIVE TABS
+    ================================================================== -->
+    <section id="projects" class="py-20 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">05 / Featured Projects</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Real-World Applications &amp; Builds</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">Explore architecture previews, key features, and tech stacks across my full-stack and AI projects.</p>
+        </div>
+
+        <div class="space-y-10">
+          <!-- Project 1: StudyNotion -->
+          <div id="project-tilt-1" class="reveal tilt-card rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
+            <div class="grid lg:grid-cols-12">
+              <!-- Visual Architecture Diagram -->
+              <div class="lg:col-span-5 relative bg-gradient-to-br from-slate-950 via-indigo-950 to-cyan-950 p-7 sm:p-9 flex flex-col justify-between text-white overflow-hidden">
+                <div class="absolute -top-16 -right-16 w-56 h-56 bg-cyan-500/20 rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-cyan-300 mb-4">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> MERN E-Learning Platform
+                  </span>
+                  <h3 class="text-2xl sm:text-3xl font-black tracking-tight">StudyNotion</h3>
+                  <p class="text-sm text-slate-300 mt-1.5">Full-stack online education platform with course management &amp; Razorpay payments.</p>
+                </div>
+
+                <div class="relative z-10 my-7 space-y-2.5 font-mono text-xs">
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-white/10 border border-white/10">
+                    <span class="text-cyan-300 font-semibold">React.js Client</span>
+                    <span class="text-slate-300">Student &amp; Instructor UI</span>
+                  </div>
+                  <div class="text-center text-cyan-300">↓ JWT Auth &amp; REST APIs</div>
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-indigo-500/25 border border-indigo-400/35">
+                    <span class="text-indigo-200 font-semibold">Node.js + Express</span>
+                    <span class="text-slate-200">Course &amp; Order Engine</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div class="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/30 text-center text-emerald-300 font-semibold">MongoDB Atlas</div>
+                    <div class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/30 text-center text-amber-200 font-semibold">Razorpay Checkout</div>
+                  </div>
+                </div>
+
+                <div class="relative z-10">
+                  <a href="https://github.com/WAZEH/studynotion-project" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-slate-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-colors shadow-lg">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    View Source on GitHub
+                  </a>
+                </div>
+              </div>
+
+              <!-- Interactive Tabs Details -->
+              <div class="lg:col-span-7 p-6 sm:p-9 flex flex-col justify-between">
+                <div>
+                  <h4 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">StudyNotion — Online Education Platform</h4>
+                  <p class="text-xs sm:text-sm font-mono text-indigo-600 dark:text-cyan-400 mt-1 mb-5">MERN Stack • Authentication • Razorpay Payments • REST APIs</p>
+
+                  <div class="flex gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 mb-5">
+                    <button type="button" onclick="switchProjectTab('p1','overview')" id="p1-tab-overview" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-indigo-600 dark:text-cyan-400 shadow-sm">Overview</button>
+                    <button type="button" onclick="switchProjectTab('p1','features')" id="p1-tab-features" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Key Features</button>
+                    <button type="button" onclick="switchProjectTab('p1','stack')" id="p1-tab-stack" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Tech Stack</button>
+                  </div>
+
+                  <div class="min-h-[175px]">
+                    <div id="p1-panel-overview" class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <p>Built a responsive, full-stack <strong class="text-slate-900 dark:text-white">e-learning platform</strong> using the MERN stack enabling instructors to create and manage courses while students browse, enroll, and track learning progress seamlessly.</p>
+                      <p>Architected modular RESTful APIs with <strong class="text-slate-900 dark:text-white">MongoDB</strong> for scalable data handling and integrated <strong class="text-slate-900 dark:text-white">Razorpay</strong> for secure course checkout and payment verification.</p>
+                    </div>
+                    <div id="p1-panel-features" class="hidden space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">User Authentication:</strong> Secure signup/login, OTP verification, and JWT-protected role routes for Students &amp; Instructors.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Course Management:</strong> Create/edit courses, sections, lectures, ratings, and interactive dashboards.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Razorpay Integration:</strong> End-to-end payment gateway flow with signature verification and enrollment automation.</div>
+                    </div>
+                    <div id="p1-panel-stack" class="hidden grid sm:grid-cols-2 gap-3 text-sm">
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-indigo-600 dark:text-cyan-400 font-bold">Frontend</div>React.js, JavaScript (ES6+), Tailwind CSS</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-indigo-600 dark:text-cyan-400 font-bold">Backend</div>Node.js, Express.js, RESTful APIs</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-indigo-600 dark:text-cyan-400 font-bold">Database</div>MongoDB, Mongoose ODM</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-indigo-600 dark:text-cyan-400 font-bold">Payments &amp; Auth</div>Razorpay API, JWT, Bcrypt</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-300">React.js</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">Node.js</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300">Express.js</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-300">MongoDB</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300">Razorpay</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: AK Mobiles -->
+          <div id="project-tilt-2" class="reveal tilt-card rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
+            <div class="grid lg:grid-cols-12">
+              <!-- Visual Storefront Preview -->
+              <div class="lg:col-span-5 relative bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 p-7 sm:p-9 flex flex-col justify-between text-white overflow-hidden">
+                <div class="absolute -bottom-16 -left-16 w-56 h-56 bg-purple-500/25 rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-purple-300 mb-4">
+                    <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span> Retail Storefront Website
+                  </span>
+                  <h3 class="text-2xl sm:text-3xl font-black tracking-tight">AK Mobiles</h3>
+                  <p class="text-sm text-slate-300 mt-1.5">Multi-brand smartphone &amp; accessories retail website designed for high customer conversion.</p>
+                </div>
+
+                <div class="relative z-10 my-7 space-y-2.5 font-mono text-xs">
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="p-2.5 rounded-xl bg-white/10 border border-white/10 text-center text-cyan-200 font-semibold">Smartphones</div>
+                    <div class="p-2.5 rounded-xl bg-white/10 border border-white/10 text-center text-purple-200 font-semibold">Accessories</div>
+                    <div class="p-2.5 rounded-xl bg-white/10 border border-white/10 text-center text-amber-200 font-semibold">Top Brands</div>
+                  </div>
+                  <div class="p-3 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-between">
+                    <span class="text-blue-200 font-semibold">Responsive Product Catalog</span>
+                    <span class="text-slate-300">Mobile-First UI</span>
+                  </div>
+                  <div class="p-3 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-between">
+                    <span class="text-emerald-200 font-semibold">Customer Inquiry Flow</span>
+                    <span class="text-slate-200">Instant Store Connect</span>
+                  </div>
+                </div>
+
+                <div class="relative z-10">
+                  <a href="https://github.com/WAZEH/ak-mobile" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-slate-950 font-semibold text-xs sm:text-sm hover:bg-purple-300 transition-colors shadow-lg">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    View Source on GitHub
+                  </a>
+                </div>
+              </div>
+
+              <!-- Interactive Tabs Details -->
+              <div class="lg:col-span-7 p-6 sm:p-9 flex flex-col justify-between">
+                <div>
+                  <h4 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">AK Mobiles — Multi-Brand Mobile &amp; Accessories Store</h4>
+                  <p class="text-xs sm:text-sm font-mono text-purple-600 dark:text-purple-400 mt-1 mb-5">Multi-Brand Retail • Responsive Catalog • Customer Inquiry UI</p>
+
+                  <div class="flex gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 mb-5">
+                    <button type="button" onclick="switchProjectTab('p2','overview')" id="p2-tab-overview" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-indigo-600 dark:text-cyan-400 shadow-sm">Overview</button>
+                    <button type="button" onclick="switchProjectTab('p2','features')" id="p2-tab-features" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Key Features</button>
+                    <button type="button" onclick="switchProjectTab('p2','stack')" id="p2-tab-stack" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Tech Stack</button>
+                  </div>
+
+                  <div class="min-h-[175px]">
+                    <div id="p2-panel-overview" class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <p>Designed and developed a modern <strong class="text-slate-900 dark:text-white">multi-brand mobile &amp; accessories retail store website</strong> showcasing flagship smartphones, budget devices, audio gear, and mobile accessories.</p>
+                      <p>Focused on clean visual hierarchy, fast mobile browsing, promotional highlights, and streamlined customer inquiry flows to turn online visitors into store customers.</p>
+                    </div>
+                    <div id="p2-panel-features" class="hidden space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Multi-Brand Showcase:</strong> Organized sections for leading smartphone brands, accessories, and featured deals.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Mobile-First Responsiveness:</strong> Crisp layout optimized for mobile shoppers, tablets, and desktop screens.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Direct Customer Inquiries:</strong> Clear calls-to-action and inquiry sections for instant product availability checks.</div>
+                    </div>
+                    <div id="p2-panel-stack" class="hidden grid sm:grid-cols-2 gap-3 text-sm">
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-purple-600 dark:text-purple-400 font-bold">Core Web</div>HTML5, CSS3, JavaScript (ES6+)</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-purple-600 dark:text-purple-400 font-bold">UI / Styling</div>Responsive Grid &amp; Flexbox, Modern UI</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-purple-600 dark:text-purple-400 font-bold">UX Focus</div>Catalog Browsing, Store Lead Capture</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-purple-600 dark:text-purple-400 font-bold">Version Control</div>Git &amp; GitHub</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300">HTML5</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">CSS3</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300">JavaScript</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-300">Responsive Storefront</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: AI-Built & AI-Powered Web Applications -->
+          <div id="project-tilt-3" class="reveal tilt-card rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
+            <div class="grid lg:grid-cols-12">
+              <!-- Visual AI Architecture Diagram -->
+              <div class="lg:col-span-5 relative bg-gradient-to-br from-slate-950 via-fuchsia-950 to-indigo-950 p-7 sm:p-9 flex flex-col justify-between text-white overflow-hidden">
+                <div class="absolute -top-16 -right-16 w-56 h-56 bg-fuchsia-500/25 rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-fuchsia-300 mb-4">
+                    <span class="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></span> AI-Assisted Engineering
+                  </span>
+                  <h3 class="text-2xl sm:text-3xl font-black tracking-tight">AI-Built Web Apps</h3>
+                  <p class="text-sm text-slate-300 mt-1.5">End-to-end AI-assisted &amp; LLM-integrated web applications, smart dashboards, and utilities.</p>
+                </div>
+
+                <div class="relative z-10 my-7 space-y-2.5 font-mono text-xs">
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-white/10 border border-white/10">
+                    <span class="text-cyan-300 font-semibold">Interactive UI</span>
+                    <span class="text-slate-300">Prompt &amp; Smart Controls</span>
+                  </div>
+                  <div class="text-center text-fuchsia-300">↓ Prompt Orchestration &amp; Context</div>
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-fuchsia-500/25 border border-fuchsia-400/35">
+                    <span class="text-fuchsia-200 font-semibold">AI &amp; LLM API Layer</span>
+                    <span class="text-slate-200">Generative AI Logic</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div class="p-2.5 rounded-xl bg-indigo-500/20 border border-indigo-400/30 text-center text-indigo-200 font-semibold">React + Node.js</div>
+                    <div class="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/30 text-center text-emerald-300 font-semibold">Live Smart App</div>
+                  </div>
+                </div>
+
+                <div class="relative z-10">
+                  <a href="https://github.com/WAZEH" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-slate-950 font-semibold text-xs sm:text-sm hover:bg-fuchsia-300 transition-colors shadow-lg">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    Explore on GitHub
+                  </a>
+                </div>
+              </div>
+
+              <!-- Interactive Tabs Details -->
+              <div class="lg:col-span-7 p-6 sm:p-9 flex flex-col justify-between">
+                <div>
+                  <h4 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">AI-Built &amp; AI-Powered Web Applications</h4>
+                  <p class="text-xs sm:text-sm font-mono text-fuchsia-600 dark:text-fuchsia-400 mt-1 mb-5">LLM APIs • Smart Automation • Rapid Full-Stack Prototyping</p>
+
+                  <div class="flex gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 mb-5">
+                    <button type="button" onclick="switchProjectTab('p3','overview')" id="p3-tab-overview" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-indigo-600 dark:text-cyan-400 shadow-sm">Overview</button>
+                    <button type="button" onclick="switchProjectTab('p3','features')" id="p3-tab-features" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Key Features</button>
+                    <button type="button" onclick="switchProjectTab('p3','stack')" id="p3-tab-stack" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">Tech Stack</button>
+                  </div>
+
+                  <div class="min-h-[175px]">
+                    <div id="p3-panel-overview" class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <p>End-to-end <strong class="text-slate-900 dark:text-white">AI-assisted and LLM-integrated web applications</strong> combining interactive UIs, smart workflow automation, and rapid full-stack architecture.</p>
+                      <p>Leveraging modern AI APIs with <strong class="text-slate-900 dark:text-white">React.js and Node.js</strong> to turn concepts into live, responsive products with faster iteration cycles.</p>
+                    </div>
+                    <div id="p3-panel-features" class="hidden space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">AI API &amp; LLM Integration:</strong> Custom chat assistants, content generators, and smart data helpers backed by secure API layers.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Rapid MVP Prototyping:</strong> Fast concept-to-production delivery for startups and client proof-of-concepts.</div>
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60"><strong class="text-slate-900 dark:text-white">Clean Full-Stack Code:</strong> Maintainable component structures, responsive design, and smooth UX animations.</div>
+                    </div>
+                    <div id="p3-panel-stack" class="hidden grid sm:grid-cols-2 gap-3 text-sm">
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-fuchsia-600 dark:text-fuchsia-400 font-bold">AI &amp; Prompts</div>LLM APIs, Prompt Engineering, AI Workflows</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-fuchsia-600 dark:text-fuchsia-400 font-bold">Frontend</div>React.js, JavaScript (ES6+), Tailwind CSS</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-fuchsia-600 dark:text-fuchsia-400 font-bold">Backend</div>Node.js, Express.js, REST APIs</div>
+                      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60"><div class="font-mono text-xs text-fuchsia-600 dark:text-fuchsia-400 font-bold">Data &amp; Ops</div>MongoDB, Git, GitHub</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300">AI Web Apps</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300">LLM APIs</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-300">React.js</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">Node.js</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         8. EDUCATION & CERTIFICATIONS (#education)
+    ================================================================== -->
+    <section id="education" class="py-20 sm:py-24 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">06 / Education &amp; Credentials</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Academic Background &amp; Certifications</h2>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+          <!-- Academic Degrees -->
+          <div class="lg:col-span-7 space-y-5 reveal-left">
+            <h3 class="font-mono text-sm uppercase tracking-wider text-indigo-600 dark:text-cyan-400 font-bold mb-2">Education</h3>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h4 class="text-lg font-extrabold text-slate-900 dark:text-white">University of Lucknow</h4>
+                  <p class="text-sm font-semibold text-indigo-600 dark:text-cyan-400">Bachelor of Technology — Computer Science &amp; Engineering</p>
+                </div>
+                <span class="px-3 py-1 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2020 – 2024</span>
+              </div>
+              <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-bold">
+                SGPA: 8.63
+              </div>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h4 class="text-lg font-extrabold text-slate-900 dark:text-white">Children Senior Secondary School</h4>
+                  <p class="text-sm font-semibold text-slate-600 dark:text-slate-300">All India Senior Secondary School (Class XII)</p>
+                </div>
+                <span class="px-3 py-1 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2018 – 2019</span>
+              </div>
+              <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 text-xs font-mono font-bold">
+                Percentage: 79.6%
+              </div>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h4 class="text-lg font-extrabold text-slate-900 dark:text-white">S B K Pub Vidyalaya</h4>
+                  <p class="text-sm font-semibold text-slate-600 dark:text-slate-300">Secondary School (Class X)</p>
+                </div>
+                <span class="px-3 py-1 rounded-xl text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2016 – 2017</span>
+              </div>
+              <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 text-xs font-mono font-bold">
+                CGPA: 8.8
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="lg:col-span-5 space-y-5 reveal-right">
+            <h3 class="font-mono text-sm uppercase tracking-wider text-indigo-600 dark:text-cyan-400 font-bold mb-2">Certifications</h3>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300">MERN Bootcamp</span>
+                <span class="text-xs font-mono text-slate-500 dark:text-slate-400">Nov 2023 – June 2024</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 dark:text-white">Code Help Web Development Bootcamp [MERN]</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">Hands-on full-stack training in MongoDB, Express.js, React, Node.js, RESTful APIs, and scalable web solutions.</p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300">Programming</span>
+              <h4 class="text-base font-extrabold text-slate-900 dark:text-white mt-2">Samsung Innovation Campus — Coding and Programming</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Certified training focused on core programming logic, algorithmic problem solving, and software fundamentals.</p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-md">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300">Cloud</span>
+              <h4 class="text-base font-extrabold text-slate-900 dark:text-white mt-2">AWS Cloud Club Certification</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Foundational cloud computing concepts, cloud architecture, and modern deployment workflows.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         9. CONTACT & CLIENT INQUIRY SECTION (#contact)
+    ================================================================== -->
+    <section id="contact" class="py-20 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-cyan-400 font-semibold">07 / Contact &amp; Client Inquiry</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Let's Build Something Impactful</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400">Hiring for a Software / Full Stack Developer role or looking to kick off a client web or AI project? Reach out directly or send a brief below.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-start">
+          <!-- Left: Quick-Copy Contact Cards -->
+          <div class="lg:col-span-5 space-y-4 reveal-left">
+            <!-- Location Card -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-mono text-slate-500 dark:text-slate-400">Location</div>
+                  <div class="text-sm font-bold text-slate-900 dark:text-white truncate">Bengaluru, Karnataka, India</div>
+                </div>
+              </div>
+              <button type="button" onclick="copyText('Bengaluru, Karnataka, India', 'Location')" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors shrink-0">Copy</button>
+            </div>
+
+            <!-- Email Card -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-cyan-50 dark:bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-mono text-slate-500 dark:text-slate-400">Email</div>
+                  <a href="mailto:mohdwazeh08@gmail.com" class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-cyan-400 truncate block">mohdwazeh08@gmail.com</a>
+                </div>
+              </div>
+              <button type="button" onclick="copyText('mohdwazeh08@gmail.com', 'Email')" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors shrink-0">Copy</button>
+            </div>
+
+            <!-- Phone Card -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-mono text-slate-500 dark:text-slate-400">Phone</div>
+                  <a href="tel:+919554897472" class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-cyan-400">+91 9554897472</a>
+                </div>
+              </div>
+              <button type="button" onclick="copyText('+91 9554897472', 'Phone')" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors shrink-0">Copy</button>
+            </div>
+
+            <!-- GitHub Card -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-mono text-slate-500 dark:text-slate-400">GitHub</div>
+                  <a href="https://github.com/WAZEH" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-cyan-400 truncate block">github.com/WAZEH</a>
+                </div>
+              </div>
+              <button type="button" onclick="copyText('https://github.com/WAZEH', 'GitHub URL')" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors shrink-0">Copy</button>
+            </div>
+
+            <!-- LinkedIn Card -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-mono text-slate-500 dark:text-slate-400">LinkedIn</div>
+                  <a href="https://www.linkedin.com/in/mdwazeho/" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-cyan-400 truncate block">linkedin.com/in/mdwazeho</a>
+                </div>
+              </div>
+              <button type="button" onclick="copyText('https://www.linkedin.com/in/mdwazeho/', 'LinkedIn URL')" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors shrink-0">Copy</button>
+            </div>
+          </div>
+
+          <!-- Right: Validated Project / Hiring Inquiry Form -->
+          <div class="lg:col-span-7 reveal-right">
+            <form id="contact-form" novalidate class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                  <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Send a Project or Hiring Inquiry</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Typically responds within 24 hours.</p>
+                </div>
+                <span id="selected-package-badge" class="hidden px-3 py-1 rounded-full text-xs font-mono font-semibold bg-indigo-50 dark:bg-cyan-500/15 text-indigo-700 dark:text-cyan-300 border border-indigo-200 dark:border-cyan-500/30"></span>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="contact-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Your Name *</label>
+                  <input id="contact-name" type="text" required placeholder="e.g. Aarav Sharma" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-cyan-400" />
+                </div>
+                <div>
+                  <label for="contact-email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Your Email *</label>
+                  <input id="contact-email" type="email" required placeholder="you@company.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-cyan-400" />
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="contact-service" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Service / Inquiry Type *</label>
+                  <select id="contact-service" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-cyan-400">
+                    <option value="Software / Full Stack Developer Hiring">Software / Full Stack Developer Hiring</option>
+                    <option value="Full-Stack MERN Web Applications">Full-Stack MERN Web Applications</option>
+                    <option value="AI-Built & AI-Powered Web Applications">AI-Built &amp; AI-Powered Web Applications</option>
+                    <option value="Business & Multi-Brand E-Commerce Websites">Business &amp; Multi-Brand E-Commerce Websites</option>
+                    <option value="RESTful API & Backend Development">RESTful API &amp; Backend Development</option>
+                    <option value="Responsive UI/UX & Frontend Modernization">Responsive UI/UX &amp; Frontend Modernization</option>
+                    <option value="Deployment, Maintenance & Ongoing Support">Deployment, Maintenance &amp; Ongoing Support</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="contact-budget" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Timeline / Budget</label>
+                  <select id="contact-budget" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-cyan-400">
+                    <option value="Full-Time Role / Interview">Full-Time Role / Interview</option>
+                    <option value="1–2 Weeks (Quick Build)">1–2 Weeks (Quick Build)</option>
+                    <option value="2–6 Weeks (Full-Stack / AI MVP)">2–6 Weeks (Full-Stack / AI MVP)</option>
+                    <option value="Flexible / Monthly Retainer">Flexible / Monthly Retainer</option>
+                    <option value="Let's Discuss Scope">Let's Discuss Scope</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="contact-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Project Details or Role Message *</label>
+                <textarea id="contact-message" rows="4" required placeholder="Share your project goals, features, timeline, or job opportunity..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-cyan-400 resize-y"></textarea>
+              </div>
+
+              <div id="contact-form-feedback" class="hidden p-4 rounded-2xl text-sm"></div>
+
+              <div class="flex flex-wrap items-center gap-3 pt-1">
+                <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 hover:brightness-110 shadow-lg shadow-indigo-500/25 transition-all active:scale-95">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                  Send Inquiry
+                </button>
+                <a id="direct-mailto-btn" href="mailto:mohdwazeh08@gmail.com" class="inline-flex items-center gap-1.5 px-4 py-3.5 rounded-2xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                  Open in Email App
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================================================================
+       FOOTER
+  ================================================================== -->
+  <footer class="py-10 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-600 dark:text-slate-400">
+      <div class="flex items-center gap-2.5">
+        <span class="font-mono font-extrabold text-slate-900 dark:text-white">&lt;Wazeh/&gt;</span>
+        <span>•</span>
+        <span>Bengaluru, Karnataka, India</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 font-mono text-xs">
+        <a href="https://github.com/WAZEH" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 dark:hover:text-cyan-400">GitHub</a>
+        <a href="https://www.linkedin.com/in/mdwazeho/" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 dark:hover:text-cyan-400">LinkedIn</a>
+        <button type="button" onclick="openTerminal()" class="hover:text-indigo-600 dark:hover:text-cyan-400">Terminal (Ctrl+K)</button>
+        <button type="button" onclick="downloadCV()" class="hover:text-indigo-600 dark:hover:text-cyan-400">Download CV</button>
+      </div>
+      <div class="text-xs">&copy; <span id="footer-year"></span> Mohd Wazeh. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- =================================================================
+       10A. INTERACTIVE DEVELOPER TERMINAL MODAL (Ctrl+K / Cmd+K)
+  ================================================================== -->
+  <div id="terminal-modal" class="hidden fixed inset-0 z-[70] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
+    <div class="w-full max-w-3xl rounded-3xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-2xl flex flex-col max-h-[85vh]">
+      <!-- Terminal Header -->
+      <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-500 cursor-pointer" onclick="closeTerminal()"></span>
+          <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+          <span class="ml-2 font-mono text-xs text-slate-300">wazeh@dev:~$ — Interactive Developer Terminal</span>
+        </div>
+        <button type="button" onclick="closeTerminal()" class="px-2.5 py-1 rounded-lg text-xs font-mono text-slate-400 hover:text-white hover:bg-slate-800">ESC</button>
+      </div>
+
+      <!-- Quick-Run Command Chips -->
+      <div class="px-4 py-2.5 bg-slate-900/60 border-b border-slate-800 flex flex-wrap gap-1.5">
+        <button type="button" onclick="runTerminalCommand('help')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">help</button>
+        <button type="button" onclick="runTerminalCommand('whoami')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">whoami</button>
+        <button type="button" onclick="runTerminalCommand('services')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-emerald-300 hover:bg-emerald-400 hover:text-slate-950 transition-colors">services</button>
+        <button type="button" onclick="runTerminalCommand('skills')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">skills</button>
+        <button type="button" onclick="runTerminalCommand('experience')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">experience</button>
+        <button type="button" onclick="runTerminalCommand('projects')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">projects</button>
+        <button type="button" onclick="runTerminalCommand('ai')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-fuchsia-300 hover:bg-fuchsia-400 hover:text-slate-950 transition-colors">ai</button>
+        <button type="button" onclick="runTerminalCommand('education')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">education</button>
+        <button type="button" onclick="runTerminalCommand('contact')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition-colors">contact</button>
+        <button type="button" onclick="runTerminalCommand('theme')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-amber-300 hover:bg-amber-400 hover:text-slate-950 transition-colors">theme</button>
+        <button type="button" onclick="runTerminalCommand('download-cv')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-indigo-300 hover:bg-indigo-400 hover:text-slate-950 transition-colors">download-cv</button>
+        <button type="button" onclick="runTerminalCommand('clear')" class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-rose-300 hover:bg-rose-400 hover:text-slate-950 transition-colors">clear</button>
+      </div>
+
+      <!-- Terminal Output Area -->
+      <div id="terminal-output" class="flex-1 p-4 sm:p-5 overflow-y-auto font-mono text-xs sm:text-sm space-y-3 text-slate-200 min-h-[260px]">
+        <div class="text-cyan-400">Welcome to Mohd Wazeh's Developer Terminal v2.0</div>
+        <div class="text-slate-400">Type <span class="text-emerald-400">help</span> or click any quick-run chip above to explore portfolio, client services, projects, or download CV.</div>
+      </div>
+
+      <!-- Terminal Input Line -->
+      <form id="terminal-form" class="px-4 py-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2 font-mono text-xs sm:text-sm">
+        <span class="text-emerald-400 shrink-0">wazeh@dev:~$</span>
+        <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type a command (e.g. services, projects, download-cv)..." class="flex-1 bg-transparent text-white placeholder-slate-500 focus:outline-none" />
+      </form>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       10B. CV PREVIEW & PRINT/PDF MODAL
+  ================================================================== -->
+  <div id="cv-preview-modal" class="hidden fixed inset-0 z-[75] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
+    <div class="w-full max-w-4xl h-[88vh] rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl flex flex-col">
+      <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-slate-100 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Mohd_Wazeh_CV.html — Print-Ready Preview</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="printCVFromPreview()" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors">
+            Print / Save as PDF
+          </button>
+          <button type="button" onclick="downloadCV()" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
+            Download HTML
+          </button>
+          <button type="button" onclick="closeCVPreview()" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+      <iframe id="cv-preview-iframe" title="Mohd Wazeh CV Preview" class="flex-1 w-full bg-white"></iframe>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       JAVASCRIPT: INTERACTIVITY, ANIMATIONS, SERVICES, TERMINAL & CV
+  ================================================================== -->
+  <script>
+    /* =================================================================
+       1. UTILITIES: TOAST NOTIFICATIONS & SAFE CLIPBOARD COPY
+    ================================================================= */
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const accent =
+        type === 'success'
+          ? 'border-emerald-500/50 bg-slate-900 text-emerald-300'
+          : type === 'error'
+          ? 'border-rose-500/50 bg-slate-900 text-rose-300'
+          : 'border-cyan-500/50 bg-slate-900 text-cyan-200';
+      toast.className = `pointer-events-auto px-4 py-3 rounded-2xl border shadow-2xl text-xs sm:text-sm font-medium backdrop-blur-md transition-all duration-300 ${accent}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function copyText(text, label = 'Text') {
+      try {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast(`${label} copied to clipboard!`, 'success');
+      } catch (err) {
+        showToast(`Could not copy ${label}.`, 'error');
+      }
+    }
+
+    function handlePortraitFallback(imgEl) {
+      imgEl.classList.add('hidden');
+      const fb = document.getElementById('hero-portrait-fallback');
+      if (fb) fb.classList.remove('hidden');
+    }
+
+    /* =================================================================
+       2. DARK / LIGHT THEME TOGGLE (PERSISTED IN LOCALSTORAGE)
+    ================================================================= */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      try {
+        localStorage.setItem('wazeh-theme', isDark ? 'dark' : 'light');
+      } catch (e) {}
+      showToast(`Switched to ${isDark ? 'Dark' : 'Light'} Mode`, 'info');
+    }
+
+    /* =================================================================
+       3. MOBILE MENU & SCROLL PROGRESS BAR
+    ================================================================= */
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const openIcon = document.getElementById('mobile-menu-icon-open');
+      const closeIcon = document.getElementById('mobile-menu-icon-close');
+      const isHidden = menu.classList.toggle('hidden');
+      openIcon.classList.toggle('hidden', !isHidden);
+      closeIcon.classList.toggle('hidden', isHidden);
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const openIcon = document.getElementById('mobile-menu-icon-open');
+      const closeIcon = document.getElementById('mobile-menu-icon-close');
+      menu.classList.add('hidden');
+      openIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      const bar = document.getElementById('scroll-progress');
+      if (bar) bar.style.width = `${pct}%`;
+    }, { passive: true });
+
+    /* =================================================================
+       4. HERO CANVAS CONSTELLATION / PARTICLE NETWORK
+    ================================================================= */
+    (function initHeroCanvas() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = 0, height = 0, particles = [];
+      const mouse = { x: null, y: null, radius: 130 };
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        width = canvas.width = rect.width;
+        height = canvas.height = rect.height;
+        const count = Math.min(72, Math.max(28, Math.floor((width * height) / 17000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 2 + 1.2,
+        }));
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        const isDark = document.documentElement.classList.contains('dark');
+        const dotColor = isDark ? 'rgba(56, 189, 248, 0.7)' : 'rgba(79, 70, 229, 0.55)';
+        const lineBase = isDark ? '56, 189, 248' : '79, 70, 229';
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = dotColor;
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const dx = p.x - q.x;
+            const dy = p.y - q.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 125) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = `rgba(${lineBase}, ${(1 - dist / 125) * 0.24})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+
+          if (mouse.x !== null && mouse.y !== null) {
+            const md = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+            if (md < mouse.radius) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(${lineBase}, ${(1 - md / mouse.radius) * 0.4})`;
+              ctx.lineWidth = 1.1;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      resize();
+      animate();
+    })();
+
+    /* =================================================================
+       5. HERO TYPING ANIMATION & 3D TILT EFFECT
+    ================================================================= */
+    (function initTyping() {
+      const roles = [
+        'Full Stack Developer',
+        'MERN Stack Engineer',
+        'AI-Powered Web App Builder',
+        'Freelance Web Developer',
+        'API & Backend Builder',
+      ];
+      const el = document.getElementById('typing-text');
+      if (!el) return;
+      let roleIdx = 0, charIdx = 0, deleting = false;
+
+      function tick() {
+        const current = roles[roleIdx];
+        if (!deleting) {
+          el.textContent = current.slice(0, ++charIdx);
+          if (charIdx === current.length) {
+            deleting = true;
+            setTimeout(tick, 1750);
+            return;
+          }
+          setTimeout(tick, 68);
+        } else {
+          el.textContent = current.slice(0, --charIdx);
+          if (charIdx === 0) {
+            deleting = false;
+            roleIdx = (roleIdx + 1) % roles.length;
+            setTimeout(tick, 320);
+            return;
+          }
+          setTimeout(tick, 38);
+        }
+      }
+      tick();
+    })();
+
+    function attachTilt(id, maxDeg = 7) {
+      const card = document.getElementById(id);
+      if (!card) return;
+      card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return;
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(1000px) rotateX(${(-y * maxDeg).toFixed(2)}deg) rotateY(${(x * maxDeg).toFixed(2)}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      });
+    }
+    attachTilt('hero-tilt-container', 9);
+    attachTilt('project-tilt-1', 3.5);
+    attachTilt('project-tilt-2', 3.5);
+    attachTilt('project-tilt-3', 3.5);
+
+    /* =================================================================
+       6. INTERACTIVE VS CODE PROFILE CARD
+    ================================================================= */
+    const codeSnippets = {
+      js: {
+        lang: 'JavaScript',
+        raw: `const mohdWazeh = {
+  role: "Full Stack Developer (MERN & AI Web Apps)",
+  freelance: "Evela Tech (Self-employed · Since Apr 2025)",
+  location: "Bengaluru, Karnataka, India",
+  github: "https://github.com/WAZEH",
+  linkedin: "https://www.linkedin.com/in/mdwazeho/",
+  coreStack: ["MongoDB", "Express.js", "React.js", "Node.js"],
+  aiCapabilities: [
+    "AI-Built Web Applications",
+    "LLM & AI API Integration",
+    "Rapid AI-Assisted Prototyping"
+  ],
+  clientServices: [
+    "MERN Web Apps",
+    "AI-Powered Apps",
+    "Multi-Brand E-Commerce",
+    "REST APIs & Deployment"
+  ],
+  seeking: ["Software Developer", "Full Stack Developer"],
+  contact: () => "mohdwazeh08@gmail.com"
+};`,
+      },
+      json: {
+        lang: 'JSON',
+        raw: `{
+  "name": "Mohd Wazeh",
+  "title": "Full Stack Developer & AI Web App Builder",
+  "currentWork": "Freelance Full Stack Developer @ Evela Tech",
+  "location": "Bengaluru, Karnataka, India",
+  "email": "mohdwazeh08@gmail.com",
+  "phone": "+91 9554897472",
+  "github": "https://github.com/WAZEH",
+  "linkedin": "https://www.linkedin.com/in/mdwazeho/",
+  "education": "B.Tech CSE, University of Lucknow (8.63 SGPA)",
+  "seeking": ["Software Developer", "Full Stack Developer"],
+  "openForFreelanceClients": true
+}`,
+      },
+    };
+
+    let activeCodeTab = 'js';
+    function highlightCode(str) {
+      return str
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/(".*?")/g, '<span class="text-emerald-300">$1</span>')
+        .replace(/\b(const|return|true|false)\b/g, '<span class="text-fuchsia-400 font-semibold">$1</span>')
+        .replace(/\b(mohdWazeh|role|freelance|location|github|linkedin|coreStack|aiCapabilities|clientServices|seeking|contact)\b(?=\s*:)/g, '<span class="text-cyan-300">$1</span>');
+    }
+
+    function switchCodeTab(tab) {
+      activeCodeTab = tab;
+      const pre = document.getElementById('vscode-content');
+      const langBadge = document.getElementById('vscode-lang-badge');
+      const tabJs = document.getElementById('code-tab-js');
+      const tabJson = document.getElementById('code-tab-json');
+      if (pre) pre.innerHTML = highlightCode(codeSnippets[tab].raw);
+      if (langBadge) langBadge.textContent = codeSnippets[tab].lang;
+
+      if (tab === 'js') {
+        tabJs.className = 'px-4 py-2.5 border-r border-slate-800 bg-slate-950 text-cyan-400 border-t-2 border-t-cyan-400 font-semibold';
+        tabJson.className = 'px-4 py-2.5 border-r border-slate-800 text-slate-400 hover:text-slate-200 transition-colors';
+      } else {
+        tabJson.className = 'px-4 py-2.5 border-r border-slate-800 bg-slate-950 text-cyan-400 border-t-2 border-t-cyan-400 font-semibold';
+        tabJs.className = 'px-4 py-2.5 border-r border-slate-800 text-slate-400 hover:text-slate-200 transition-colors';
+      }
+    }
+
+    function copyCodeProfile() {
+      copyText(codeSnippets[activeCodeTab].raw, activeCodeTab === 'js' ? 'developer.js' : 'mohdWazeh.json');
+      const lbl = document.getElementById('copy-code-label');
+      if (lbl) {
+        lbl.textContent = 'Copied!';
+        setTimeout(() => (lbl.textContent = 'Copy'), 1800);
+      }
+    }
+    switchCodeTab('js');
+
+    /* =================================================================
+       7. CLIENT SERVICES DATA, RENDERING & CONTACT FORM SYNC
+    ================================================================= */
+    const servicesData = [
+      {
+        title: 'Full-Stack MERN Web Applications',
+        tag: 'Custom Web Apps',
+        timeline: '2–6 Weeks',
+        accent: 'from-indigo-500 to-cyan-500',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>',
+        desc: 'End-to-end scalable web applications engineered with MongoDB, Express.js, React.js, and Node.js tailored to your business logic.',
+        deliverables: [
+          'Custom React.js frontend & responsive UI',
+          'Node.js & Express.js RESTful APIs',
+          'MongoDB database architecture',
+          'JWT authentication & role-based dashboards',
+          'Razorpay / Stripe payment integration & cloud deploy',
+        ],
+        stack: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'Razorpay'],
+      },
+      {
+        title: 'AI-Built & AI-Powered Web Applications',
+        tag: 'AI & Automation',
+        timeline: '1–4 Weeks',
+        accent: 'from-fuchsia-500 to-indigo-500',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/></svg>',
+        desc: 'Intelligent web apps combining LLM APIs, smart automation, and AI-assisted rapid MVP prototyping for faster market launch.',
+        deliverables: [
+          'LLM & AI API integration (chatbots, content/data assistants)',
+          'Smart workflow automation & custom AI UIs',
+          'AI-assisted rapid MVP prototyping',
+          'Prompt engineering & structured output handling',
+          'Scalable Node.js API wrappers & rate control',
+        ],
+        stack: ['LLM APIs', 'Prompt Engineering', 'React.js', 'Node.js', 'AI Workflows'],
+      },
+      {
+        title: 'Business & Multi-Brand E-Commerce Websites',
+        tag: 'Retail & Brand',
+        timeline: '1–3 Weeks',
+        accent: 'from-blue-500 to-purple-500',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>',
+        desc: 'High-converting storefront and brand websites (like AK Mobiles) crafted to showcase products and drive local & online inquiries.',
+        deliverables: [
+          'High-converting product catalogs & showcase pages',
+          'Mobile-first responsive design',
+          'Interactive EMI / quote calculators',
+          'WhatsApp & lead inquiry capture forms',
+          'Google Maps integration & foundational SEO',
+        ],
+        stack: ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'Tailwind CSS', 'SEO'],
+      },
+      {
+        title: 'RESTful API & Backend Development',
+        tag: 'Backend Systems',
+        timeline: '1–3 Weeks',
+        accent: 'from-emerald-500 to-cyan-500',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/></svg>',
+        desc: 'Reliable, well-structured server-side systems and secure APIs designed for high performance and seamless frontend integration.',
+        deliverables: [
+          'Clean REST API design & clear endpoint documentation',
+          'Secure authentication (JWT / OAuth)',
+          'MongoDB schema design & query optimization',
+          'Third-party webhook & payment integrations',
+          'Robust error handling & security best practices',
+        ],
+        stack: ['Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'Postman'],
+      },
+      {
+        title: 'Responsive UI/UX & Frontend Modernization',
+        tag: 'Frontend & UI',
+        timeline: '5–10 Days',
+        accent: 'from-cyan-500 to-blue-600',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>',
+        desc: 'Transform outdated websites into crisp, animated, mobile-responsive React & Tailwind interfaces users love to interact with.',
+        deliverables: [
+          'Modern React / HTML5 / CSS3 / Tailwind interfaces',
+          'Dark & Light mode theme systems',
+          'Smooth scroll & micro-interaction animations',
+          'Cross-browser & mobile responsiveness',
+          'Core Web Vitals speed & asset tuning',
+        ],
+        stack: ['React.js', 'Tailwind CSS', 'HTML5', 'CSS3', 'ES6+'],
+      },
+      {
+        title: 'Deployment, Maintenance & Ongoing Support',
+        tag: 'Support & Ops',
+        timeline: 'Flexible / Monthly',
+        accent: 'from-amber-500 to-rose-500',
+        icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+        desc: 'Keep your web applications live, secure, and evolving with dependable hosting setup, bug resolution, and iterative updates.',
+        deliverables: [
+          'Production hosting, domain & SSL configuration',
+          'Bug fixing & legacy code refactoring',
+          'Git & GitHub version control workflows',
+          'Performance monitoring & uptime checks',
+          'Ongoing new feature rollouts',
+        ],
+        stack: ['Git', 'GitHub', 'Cloud Deploy', 'SSL / DNS', 'Support'],
+      },
+    ];
+
+    function renderServices() {
+      const grid = document.getElementById('services-grid');
+      if (!grid) return;
+      grid.innerHTML = servicesData.map((s) => `
+        <article class="reveal flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all duration-300 group">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-5">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${s.accent} text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                ${s.icon}
+              </div>
+              <div class="text-right">
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-cyan-300 border border-indigo-200/70 dark:border-indigo-500/30">${s.tag}</span>
+                <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 mt-1">Est. ${s.timeline}</div>
+              </div>
+            </div>
+
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white leading-snug mb-2.5">${s.title}</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">${s.desc}</p>
+
+            <div class="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold mb-2">Deliverables</div>
+            <ul class="space-y-1.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-5">
+              ${s.deliverables.map((d) => `<li class="flex items-start gap-2"><span class="text-cyan-500 font-bold shrink-0">▹</span><span>${d}</span></li>`).join('')}
+            </ul>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap gap-1.5 mb-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+              ${s.stack.map((t) => `<span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${t}</span>`).join('')}
+            </div>
+
+            <button type="button" onclick="requestService('${s.title.replace(/'/g, "\\'")}')" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-to-r ${s.accent} hover:brightness-110 shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+              <span>Request This Service</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </article>
+      `).join('');
+    }
+    renderServices();
+
+    // Smoothly scroll to Contact section and auto-select the chosen service
+    function requestService(serviceTitle, packageName = '') {
+      const select = document.getElementById('contact-service');
+      const msg = document.getElementById('contact-message');
+      const badge = document.getElementById('selected-package-badge');
+      if (select) {
+        for (const opt of select.options) {
+          if (opt.value === serviceTitle) {
+            select.value = serviceTitle;
+            break;
+          }
+        }
+      }
+      if (badge) {
+        if (packageName) {
+          badge.textContent = packageName;
+          badge.classList.remove('hidden');
+        } else {
+          badge.textContent = serviceTitle;
+          badge.classList.remove('hidden');
+        }
+      }
+      if (msg && !msg.value.trim()) {
+        msg.value = packageName
+          ? `Hi Mohd Wazeh, I'm interested in the ${packageName} (${serviceTitle}). Here are my project details: `
+          : `Hi Mohd Wazeh, I'd like to discuss a project for ${serviceTitle}. Here are my requirements: `;
+      }
+      const contactEl = document.getElementById('contact');
+      if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+      showToast(`Selected "${packageName || serviceTitle}" in the inquiry form!`, 'success');
+      setTimeout(() => document.getElementById('contact-name')?.focus(), 650);
+    }
+
+    /* =================================================================
+       8. FILTERABLE SKILLS SECTION
+    ================================================================= */
+    const skillsData = [
+      {
+        category: 'languages',
+        title: 'Languages',
+        badge: 'Core',
+        accent: 'from-indigo-500 to-cyan-400',
+        items: [
+          { name: 'JavaScript (ES6+)', level: 92 },
+          { name: 'C++', level: 88 },
+        ],
+      },
+      {
+        category: 'frontend',
+        title: 'Frontend',
+        badge: 'UI / UX',
+        accent: 'from-cyan-500 to-blue-500',
+        items: [
+          { name: 'React.js', level: 90 },
+          { name: 'HTML5 & CSS3', level: 94 },
+          { name: 'Responsive UI Design', level: 92 },
+          { name: 'Tailwind CSS / Bootstrap', level: 90 },
+        ],
+      },
+      {
+        category: 'backend',
+        title: 'Backend',
+        badge: 'APIs',
+        accent: 'from-emerald-500 to-teal-400',
+        items: [
+          { name: 'Node.js', level: 88 },
+          { name: 'Express.js', level: 89 },
+          { name: 'RESTful API Design & Development', level: 90 },
+          { name: 'Authentication (JWT)', level: 86 },
+        ],
+      },
+      {
+        category: 'database',
+        title: 'Database',
+        badge: 'Data',
+        accent: 'from-green-500 to-emerald-400',
+        items: [
+          { name: 'MongoDB', level: 87 },
+          { name: 'NoSQL Basics', level: 84 },
+          { name: 'DBMS Fundamentals', level: 85 },
+        ],
+      },
+      {
+        category: 'ai',
+        title: 'AI & Web Apps',
+        badge: 'AI-First',
+        accent: 'from-fuchsia-500 to-indigo-500',
+        items: [
+          { name: 'AI-Built Web Applications', level: 92 },
+          { name: 'AI API & LLM Integration', level: 88 },
+          { name: 'Prompt Engineering & AI Workflows', level: 90 },
+          { name: 'Rapid AI-Assisted Prototyping', level: 93 },
+        ],
+      },
+      {
+        category: 'tools',
+        title: 'Tools & Integrations',
+        badge: 'Workflow',
+        accent: 'from-amber-500 to-orange-500',
+        items: [
+          { name: 'Git & GitHub', level: 90 },
+          { name: 'Visual Studio Code (VS Code)', level: 94 },
+          { name: 'Postman', level: 88 },
+          { name: 'Razorpay Integration', level: 85 },
+        ],
+      },
+      {
+        category: 'concepts',
+        title: 'CS & Concepts',
+        badge: 'Foundation',
+        accent: 'from-purple-500 to-pink-500',
+        items: [
+          { name: 'Data Structures & Algorithms (DSA)', level: 86 },
+          { name: 'Problem-Solving', level: 90 },
+          { name: 'Object-Oriented Programming (OOP)', level: 88 },
+          { name: 'End-to-End Deployment', level: 89 },
+        ],
+      },
+    ];
+
+    function renderSkills(filter = 'all') {
+      const grid = document.getElementById('skills-grid');
+      if (!grid) return;
+      const filtered = filter === 'all' ? skillsData : skillsData.filter((g) => g.category === filter);
+      grid.innerHTML = filtered.map((group) => `
+        <div class="p-6 rounded-3xl bg-white dark:bg-slate-900/85 border border-slate-200 dark:border-slate-800 shadow-lg hover:border-indigo-500/50 dark:hover:border-cyan-400/50 transition-all">
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">${group.title}</h3>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-cyan-400">${group.badge}</span>
+          </div>
+          <div class="space-y-4">
+            ${group.items.map((item) => `
+              <div>
+                <div class="flex items-center justify-between text-xs sm:text-sm mb-1.5">
+                  <span class="font-medium text-slate-700 dark:text-slate-200">${item.name}</span>
+                  <span class="font-mono text-xs text-slate-500 dark:text-slate-400">${item.level}%</span>
+                </div>
+                <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r ${group.accent}" data-level="${item.level}"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      // Animate bars on next frame
+      requestAnimationFrame(() => {
+        grid.querySelectorAll('.skill-bar-fill').forEach((bar) => {
+          bar.style.width = `${bar.dataset.level}%`;
+        });
+      });
+    }
+
+    document.querySelectorAll('.skill-filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.skill-filter-btn').forEach((b) => {
+          b.className = 'skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-cyan-400 transition-all';
+        });
+        btn.className = 'skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 dark:bg-cyan-500 text-white dark:text-slate-950 shadow-md transition-all';
+        renderSkills(btn.dataset.filter);
+      });
+    });
+    renderSkills('all');
+
+    /* =================================================================
+       9. PROJECT INTERACTIVE TABS
+    ================================================================= */
+    function switchProjectTab(prefix, tabName) {
+      const tabs = ['overview', 'features', 'stack'];
+      tabs.forEach((t) => {
+        const btn = document.getElementById(`${prefix}-tab-${t}`);
+        const panel = document.getElementById(`${prefix}-panel-${t}`);
+        if (!btn || !panel) return;
+        if (t === tabName) {
+          btn.className = 'flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-indigo-600 dark:text-cyan-400 shadow-sm';
+          panel.classList.remove('hidden');
+        } else {
+          btn.className = 'flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+          panel.classList.add('hidden');
+        }
+      });
+    }
+
+    /* =================================================================
+       10. SCROLL REVEAL & ANIMATED METRIC COUNTERS
+    ================================================================= */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => revealObserver.observe(el));
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseFloat(el.dataset.target);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1200;
+        const start = performance.now();
+
+        function step(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = (target * eased).toFixed(decimals) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.35 });
+
+    document.querySelectorAll('.counter').forEach((c) => counterObserver.observe(c));
+
+    /* =================================================================
+       11. VALIDATED CONTACT / CLIENT INQUIRY FORM
+    ================================================================= */
+    document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const service = document.getElementById('contact-service').value;
+      const budget = document.getElementById('contact-budget').value;
+      const message = document.getElementById('contact-message').value.trim();
+      const feedback = document.getElementById('contact-form-feedback');
+
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!name || !emailValid || message.length < 10) {
+        feedback.className = 'p-4 rounded-2xl text-sm bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30';
+        feedback.textContent = 'Please enter your name, a valid email address, and at least 10 characters in your message.';
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      const subject = encodeURIComponent(`[Portfolio Inquiry] ${service} — ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService / Inquiry: ${service}\nTimeline / Budget: ${budget}\n\nMessage:\n${message}`);
+      const mailtoUrl = `mailto:mohdwazeh08@gmail.com?subject=${subject}&body=${body}`;
+      document.getElementById('direct-mailto-btn').href = mailtoUrl;
+
+      feedback.className = 'p-4 rounded-2xl text-sm bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-500/30 space-y-2';
+      feedback.innerHTML = `
+        <div class="font-bold">Inquiry Ready! Thank you, ${name.replace(/</g, '&lt;')}.</div>
+        <div>Your brief for <strong>${service}</strong> (${budget}) has been validated. Click below to send it directly via your email client, or reach me at <strong>mohdwazeh08@gmail.com</strong>.</div>
+        <div><a href="${mailtoUrl}" class="inline-flex items-center gap-1.5 mt-1 px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-500">Launch Pre-Filled Email &rarr;</a></div>
+      `;
+      feedback.classList.remove('hidden');
+      showToast('Inquiry prepared! Ready to send via email.', 'success');
+    });
+
+    /* =================================================================
+       12. INTERACTIVE DEVELOPER TERMINAL (Ctrl+K / Cmd+K)
+    ================================================================= */
+    const terminalModal = document.getElementById('terminal-modal');
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalInput = document.getElementById('terminal-input');
+
+    function openTerminal() {
+      terminalModal.classList.remove('hidden');
+      setTimeout(() => terminalInput?.focus(), 60);
+    }
+    function closeTerminal() {
+      terminalModal.classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        terminalModal.classList.contains('hidden') ? openTerminal() : closeTerminal();
+      } else if (e.key === 'Escape') {
+        closeTerminal();
+        closeCVPreview();
+      }
+    });
+
+    const terminalResponses = {
+      help: () => `
+        <div class="grid sm:grid-cols-2 gap-1.5 text-slate-300">
+          <div><span class="text-cyan-400">whoami</span> — Developer identity</div>
+          <div><span class="text-cyan-400">about</span> — Full Stack &amp; AI bio</div>
+          <div><span class="text-emerald-400">services</span> — Client web &amp; AI services</div>
+          <div><span class="text-cyan-400">skills</span> — Complete tech stack</div>
+          <div><span class="text-cyan-400">experience</span> — Work &amp; training history</div>
+          <div><span class="text-cyan-400">projects</span> — StudyNotion, AK Mobiles &amp; AI Apps</div>
+          <div><span class="text-fuchsia-400">ai</span> — AI-powered web workflows</div>
+          <div><span class="text-cyan-400">education</span> — Degrees &amp; certifications</div>
+          <div><span class="text-cyan-400">contact</span> — Contact info &amp; links</div>
+          <div><span class="text-amber-400">theme</span> — Toggle Dark / Light mode</div>
+          <div><span class="text-indigo-400">download-cv</span> — Download print-ready CV</div>
+          <div><span class="text-rose-400">clear</span> — Clear terminal output</div>
+        </div>`,
+      whoami: () => `<span class="text-emerald-400 font-bold">Mohd Wazeh</span> — Full Stack Developer (MERN Stack) &amp; AI-Powered Web App Builder | Freelance @ Evela Tech | Bengaluru, Karnataka, India.`,
+      about: () => `<div class="text-slate-300 space-y-1.5">
+        <div>Full Stack Developer building responsive, API-driven, and AI-powered web applications using MongoDB, Express.js, React.js, and Node.js.</div>
+        <div>Seeking <span class="text-cyan-400">Software Developer</span> &amp; <span class="text-cyan-400">Full Stack Developer</span> roles while partnering with freelance clients via Evela Tech.</div>
+      </div>`,
+      services: () => `<div class="space-y-1.5 text-slate-300">
+        <div class="text-emerald-400 font-bold">Client Services (Independent &amp; Evela Tech):</div>
+        <div>1. <span class="text-cyan-300">Full-Stack MERN Web Applications</span> (2–6 Weeks)</div>
+        <div>2. <span class="text-fuchsia-300">AI-Built &amp; AI-Powered Web Applications</span> (1–4 Weeks)</div>
+        <div>3. <span class="text-purple-300">Business &amp; Multi-Brand E-Commerce Websites</span> (1–3 Weeks)</div>
+        <div>4. <span class="text-emerald-300">RESTful API &amp; Backend Development</span> (1–3 Weeks)</div>
+        <div>5. <span class="text-blue-300">Responsive UI/UX &amp; Frontend Modernization</span> (5–10 Days)</div>
+        <div>6. <span class="text-amber-300">Deployment, Maintenance &amp; Ongoing Support</span> (Flexible / Monthly)</div>
+      </div>`,
+      skills: () => `<div class="space-y-1 text-slate-300">
+        <div><span class="text-cyan-400">Languages:</span> C++, JavaScript (ES6+)</div>
+        <div><span class="text-cyan-400">Frontend:</span> React.js, HTML5, CSS3, Responsive UI, Tailwind CSS, Bootstrap</div>
+        <div><span class="text-cyan-400">Backend:</span> Node.js, Express.js, RESTful APIs, JWT Auth</div>
+        <div><span class="text-cyan-400">Database:</span> MongoDB, NoSQL Basics, DBMS</div>
+        <div><span class="text-fuchsia-400">AI &amp; Web Apps:</span> AI-Built Web Apps, LLM API Integration, Prompt Engineering, Rapid Prototyping</div>
+        <div><span class="text-cyan-400">Tools &amp; CS:</span> Git, GitHub, VS Code, Postman, Razorpay, DSA, OOP</div>
+      </div>`,
+      experience: () => `<div class="space-y-1.5 text-slate-300">
+        <div><span class="text-emerald-400">[Apr 2025 – Present · 1 yr 8 mos]</span> Freelance Full Stack Developer @ <strong>Evela Tech</strong> (Lucknow · Hybrid)</div>
+        <div><span class="text-indigo-400">[Sep 2024 – Mar 2025 · 7 mos]</span> Full Stack Development Trainee @ <strong>Ducat India</strong> (Noida · On-site)</div>
+        <div><span class="text-cyan-400">[May 2023 – Jul 2023]</span> Web Developer Intern @ <strong>Code Clause</strong></div>
+        <div><span class="text-purple-400">[Jul 2022 – Aug 2022]</span> Full Stack Web Development Training @ <strong>Internshala Trainings</strong></div>
+      </div>`,
+      projects: () => `<div class="space-y-2 text-slate-300">
+        <div><span class="text-cyan-400 font-bold">1. StudyNotion (MERN E-Learning):</span> <a href="https://github.com/WAZEH/studynotion-project" target="_blank" class="text-emerald-400 underline">github.com/WAZEH/studynotion-project</a></div>
+        <div><span class="text-purple-400 font-bold">2. AK Mobiles (Multi-Brand Store):</span> <a href="https://github.com/WAZEH/ak-mobile" target="_blank" class="text-emerald-400 underline">github.com/WAZEH/ak-mobile</a></div>
+        <div><span class="text-fuchsia-400 font-bold">3. AI-Built &amp; AI-Powered Web Apps:</span> <a href="https://github.com/WAZEH" target="_blank" class="text-emerald-400 underline">github.com/WAZEH</a></div>
+      </div>`,
+      ai: () => `<div class="text-slate-300 space-y-1">
+        <div class="text-fuchsia-400 font-bold">AI-Powered Engineering &amp; Web Applications</div>
+        <div>• Integrating LLM APIs into React &amp; Node.js apps for chatbots, assistants &amp; automation.</div>
+        <div>• Rapid AI-assisted MVP prototyping paired with clean, maintainable full-stack code.</div>
+      </div>`,
+      education: () => `<div class="space-y-1 text-slate-300">
+        <div>• <strong>University of Lucknow</strong> — B.Tech CSE (2020–2024) | SGPA: 8.63</div>
+        <div>• <strong>Children Senior Secondary School</strong> — Class XII (2018–2019) | 79.6%</div>
+        <div>• <strong>S B K Pub Vidyalaya</strong> — Class X (2016–2017) | CGPA: 8.8</div>
+        <div class="text-cyan-400 pt-1">Certs: Code Help MERN Bootcamp, Samsung Innovation Campus, AWS Cloud Club</div>
+      </div>`,
+      contact: () => `<div class="space-y-1 text-slate-300">
+        <div>Location: Bengaluru, Karnataka, India</div>
+        <div>Email: <a href="mailto:mohdwazeh08@gmail.com" class="text-cyan-400 underline">mohdwazeh08@gmail.com</a></div>
+        <div>Phone: +91 9554897472</div>
+        <div>GitHub: <a href="https://github.com/WAZEH" target="_blank" class="text-cyan-400 underline">https://github.com/WAZEH</a></div>
+        <div>LinkedIn: <a href="https://www.linkedin.com/in/mdwazeho/" target="_blank" class="text-cyan-400 underline">https://www.linkedin.com/in/mdwazeho/</a></div>
+      </div>`,
+      theme: () => {
+        toggleTheme();
+        return `<span class="text-amber-300">Theme toggled successfully.</span>`;
+      },
+      'download-cv': () => {
+        downloadCV();
+        return `<span class="text-emerald-400">Downloading Mohd_Wazeh_CV.html...</span>`;
+      },
+    };
+
+    function runTerminalCommand(rawCmd) {
+      const cmd = rawCmd.trim().toLowerCase();
+      if (!cmd) return;
+      if (cmd === 'clear') {
+        terminalOutput.innerHTML = '';
+        return;
+      }
+      const block = document.createElement('div');
+      block.className = 'space-y-1';
+      const responseHtml = terminalResponses[cmd]
+        ? terminalResponses[cmd]()
+        : `<span class="text-rose-400">Command not found: "${cmd.replace(/</g, '&lt;')}". Type <span class="text-cyan-400">help</span> for available commands.</span>`;
+      block.innerHTML = `
+        <div class="flex items-center gap-2"><span class="text-emerald-400">wazeh@dev:~$</span><span class="text-white">${cmd.replace(/</g, '&lt;')}</span></div>
+        <div class="pl-3 border-l-2 border-slate-800">${responseHtml}</div>
+      `;
+      terminalOutput.appendChild(block);
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    document.getElementById('terminal-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      runTerminalCommand(terminalInput.value);
+      terminalInput.value = '';
+    });
+
+    /* =================================================================
+       13. PRINT-READY CV GENERATOR, DOWNLOAD & PREVIEW MODAL
+    ================================================================= */
+    function generateCVHtml() {
+      return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mohd Wazeh — Full Stack Developer CV</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Inter, Arial, sans-serif; color: #0f172a; background: #ffffff; padding: 34px 40px; max-width: 860px; margin: 0 auto; line-height: 1.48; font-size: 13px; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #4f46e5; padding-bottom: 14px; margin-bottom: 16px; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 26px; font-weight: 800; color: #0f172a; }
+  .subtitle { color: #4f46e5; font-weight: 700; font-size: 13.5px; margin-top: 2px; }
+  .location { color: #64748b; font-size: 12px; margin-top: 3px; }
+  .contact { text-align: right; font-size: 12px; color: #334155; }
+  .contact a { color: #4f46e5; text-decoration: none; }
+  section { margin-bottom: 15px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #4f46e5; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 8px; }
+  .item { margin-bottom: 10px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .bold { font-weight: 700; color: #0f172a; }
+  .muted { color: #64748b; font-size: 12px; }
+  ul { padding-left: 18px; margin-top: 4px; }
+  li { margin-bottom: 3px; color: #334155; }
+  .skills-grid { display: grid; gap: 4px; color: #334155; }
+  @media print { body { padding: 16px 20px; } }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Mohd Wazeh</h1>
+      <div class="subtitle">Full Stack Developer (MERN Stack) | AI-Powered Web App Builder</div>
+      <div class="location">Bengaluru, Karnataka, India</div>
+    </div>
+    <div class="contact">
+      <div>+91 9554897472</div>
+      <div><a href="mailto:mohdwazeh08@gmail.com">mohdwazeh08@gmail.com</a></div>
+      <div><a href="https://github.com/WAZEH">github.com/WAZEH</a></div>
+      <div><a href="https://www.linkedin.com/in/mdwazeho/">linkedin.com/in/mdwazeho</a></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p style="margin-bottom:6px;">Full Stack Developer with hands-on experience building responsive, API-driven, and AI-powered web applications using the MERN stack. Since 2024, I have worked as a freelance developer, delivering web solutions from planning and development through to testing and deployment. I focus on writing clean, maintainable code and building reliable, scalable applications that are easy to use.</p>
+    <p>My technical skills include React.js, JavaScript (ES6+), HTML5, CSS3, Node.js, Express.js, MongoDB, RESTful APIs, AI API &amp; LLM integration, Git and GitHub. Seeking Software Developer and Full Stack Developer opportunities while continuing to partner with freelance clients on custom web and AI-built applications.</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <div class="item">
+      <div class="row"><span class="bold">Freelance Full Stack Developer — Evela Tech · Self-employed</span><span class="muted">Apr 2025 – Present · 1 yr 8 mos</span></div>
+      <div class="muted">Lucknow, Uttar Pradesh, India · Hybrid</div>
+      <ul>
+        <li>Build and deliver full-stack and AI-powered web applications for clients using MongoDB, Express.js, React, and Node.js.</li>
+        <li>Design responsive interfaces and REST APIs, and connect databases, AI APIs, and third-party services.</li>
+        <li>Own projects end to end: requirements, development, testing, deployment, and client communication.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="row"><span class="bold">Full Stack Development Trainee — Ducat India · Internship</span><span class="muted">Sep 2024 – Mar 2025 · 7 mos</span></div>
+      <div class="muted">Noida, Uttar Pradesh, India · On-site</div>
+      <ul>
+        <li>Training in MongoDB, Express.js, React, and Node.js, with hands-on full-stack projects.</li>
+        <li>Practising REST API development, database management, and responsive UI design.</li>
+        <li>Using Git and GitHub for version control while building and debugging projects.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="row"><span class="bold">Web Developer Intern — Code Clause</span><span class="muted">May 2023 – July 2023</span></div>
+      <ul>
+        <li>Collaborated with the backend team to integrate frontend components with backend systems using HTML, CSS, and JavaScript.</li>
+        <li>Ensured responsiveness and usability for a seamless user experience.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="row"><span class="bold">Full Stack Web Development Training — Internshala Trainings</span><span class="muted">July 2022 – Aug 2022</span></div>
+      <ul>
+        <li>Completed 8-week certified training covering HTML, CSS, Bootstrap, DBMS, PHP, JavaScript, React, and Final Project modules.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="item">
+      <div class="row"><span class="bold">StudyNotion — Online Education Platform</span><span class="muted">github.com/WAZEH/studynotion-project</span></div>
+      <ul>
+        <li>Built a responsive MERN stack e-learning platform with user authentication, course management, Razorpay secure payments, and scalable MongoDB APIs.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="row"><span class="bold">AK Mobiles — Multi-Brand Mobile &amp; Accessories Store</span><span class="muted">github.com/WAZEH/ak-mobile</span></div>
+      <ul>
+        <li>Designed a responsive multi-brand smartphone &amp; accessories retail storefront with modern UI, product showcases, and customer inquiry flows.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="row"><span class="bold">AI-Built &amp; AI-Powered Web Applications</span><span class="muted">github.com/WAZEH</span></div>
+      <ul>
+        <li>Built end-to-end AI-assisted and LLM-integrated web applications featuring interactive UIs, smart automation, and rapid full-stack architecture.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <div><span class="bold">Languages:</span> C++, JavaScript (ES6+)</div>
+      <div><span class="bold">Frontend:</span> React.js, HTML5, CSS3, Responsive UI Design, Tailwind CSS, Bootstrap</div>
+      <div><span class="bold">Backend:</span> Node.js, Express.js, RESTful API Design &amp; Development, JWT Authentication</div>
+      <div><span class="bold">Database:</span> MongoDB, NoSQL Basics, DBMS</div>
+      <div><span class="bold">AI &amp; Web Apps:</span> AI-Built Web Applications, AI API &amp; LLM Integration, Prompt Engineering, Rapid AI-Assisted Prototyping</div>
+      <div><span class="bold">Tools &amp; Concepts:</span> Git, GitHub, VS Code, Postman, Razorpay Integration, DSA, Problem-Solving, OOP, Deployment</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education &amp; Certifications</h2>
+    <div class="item">
+      <div class="row"><span class="bold">University of Lucknow — B.Tech in Computer Science &amp; Engineering</span><span class="muted">2020 – 2024 | SGPA: 8.63</span></div>
+      <div class="row"><span class="bold">Children Senior Secondary School — Class XII</span><span class="muted">2018 – 2019 | 79.6%</span></div>
+      <div class="row"><span class="bold">S B K Pub Vidyalaya — Class X</span><span class="muted">2016 – 2017 | CGPA: 8.8</span></div>
+    </div>
+    <ul>
+      <li>Code Help Web Development Bootcamp [MERN] (Nov 2023 – June 2024)</li>
+      <li>Samsung Innovation Campus — Coding and Programming</li>
+      <li>AWS Cloud Club Certification</li>
+    </ul>
+  </section>
+</body>
+</html>`;
+    }
+
+    function downloadCV() {
+      try {
+        const blob = new Blob([generateCVHtml()], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Mohd_Wazeh_CV.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Downloaded Mohd_Wazeh_CV.html!', 'success');
+      } catch (err) {
+        showToast('Unable to download CV file.', 'error');
+      }
+    }
+
+    function openCVPreview() {
+      const modal = document.getElementById('cv-preview-modal');
+      const iframe = document.getElementById('cv-preview-iframe');
+      if (!modal || !iframe) return;
+      iframe.srcdoc = generateCVHtml();
+      modal.classList.remove('hidden');
+    }
+
+    function closeCVPreview() {
+      document.getElementById('cv-preview-modal')?.classList.add('hidden');
+    }
+
+    function printCVFromPreview() {
+      try {
+        const iframe = document.getElementById('cv-preview-iframe');
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+        }
+      } catch (err) {
+        showToast('Use Download HTML and print from your browser.', 'info');
+      }
+    }
+
+    // Set current footer year
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
